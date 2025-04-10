@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import SEO from '@/components/SEO';
 
 // Dummy data for players
 const dummyPlayers = [
@@ -172,11 +173,7 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
 
   return (
     <div className="container">
-      <Head>
-        <title>CDL Wordle</title>
-        <meta name="description" content="Guess the CDL player" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <SEO/>
 
       <main className="main">
         <h1 className="title">Sports Wordle</h1>
