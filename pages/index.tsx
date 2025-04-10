@@ -179,11 +179,11 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
       </Head>
 
       <main className="main">
-        <h1 className="title">CDL Wordle</h1>
+        <h1 className="title">Sports Wordle</h1>
         
         {showInstructions && (
           <div className="instructions">
-            <p>Guess the mystery CDL player in {gameState.maxGuesses} tries or less!</p>
+            <p>Guess the mystery sports player in {gameState.maxGuesses} tries or less!</p>
             <p>Green cells indicate a match with the mystery player.</p>
             <p>For numeric values, arrows indicate if the mystery player's value is higher (↑) or lower (↓).</p>
             <button 
@@ -319,8 +319,7 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
       </main>
 
       <footer className="footer">
-        <p>Created by Diz</p>
-        <p>This site is not affiliated with the Call of Duty League or Activision.</p>
+        <p>This site is not affiliated with the any sports organization.</p>
       </footer>
     </div>
   );
