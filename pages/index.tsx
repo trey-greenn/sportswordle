@@ -177,21 +177,18 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
 
       <main className="main">
         <h1 className="title">Sports Wordle</h1>
-        
-        {showInstructions && (
-          <div className="instructions">
-            <p>Guess the mystery sports player in {gameState.maxGuesses} tries or less!</p>
-            <p>Green cells indicate a match with the mystery player.</p>
-            <p>For numeric values, arrows indicate if the mystery player's value is higher (↑) or lower (↓).</p>
-            <button 
-              className="newGameButton" 
-              onClick={() => setShowInstructions(false)}
-            >
-              Got it!
-            </button>
-          </div>
-        )}
-        
+         {/* Fixed always-visible instructions section */}
+         <div className="instructions">
+    <p>Guess the mystery sports player in {gameState.maxGuesses} tries or less!</p>
+    <p>Green cells indicate a match with the mystery player.</p>
+    <p>For numeric values, arrows indicate if the mystery player's value is higher (↑) or lower (↓).</p>
+    <button 
+      className="instructionButton "
+      onClick={() => setShowInstructions(false)}
+    >
+      Got it!
+    </button>
+  </div>
         {!gameState.gameOver ? (
           <>
             <div className="gameControls">
