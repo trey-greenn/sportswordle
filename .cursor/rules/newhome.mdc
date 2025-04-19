@@ -1,0 +1,84 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+I have this simiple new homepage mock up below, MockUp 1.0.0. We are going to use this as the new general design of the homepage. We are going to take it component by component and will not build out any advanced features yet, only implement the new design framework. Do not build out any advanced features, unless specifcally told to. Also, only build out the component that we directly mention.
+ 
+The goal of this sprint is to redesign our homepage and make it user-centric. I am struggling to come up with the perfect home page for the website, but I know I want the homepage to be fun, education, and asthetically pleasing to look at.
+
+ **Sports News Ticker**: Small feed with trending sports topics that could hint at future puzzles
+
+
+
+MockUp 1.0.0:
+
++----------------------------------------------------------------------------------+
+|                                                                                  |
+|                             SPORTSWORDLE HEADER BANNER                           |
+|                          [Animated Sports Elements Here]                         |
+|                                                                                  |
++----------------------------------------------------------------------------------+
+|                                                                                  |
+| >> NFL: Chiefs prepare for AFC showdown >> NBA: Lakers win thriller >> MLB: Yankees acquire All-Star >> |
+|                                                                                  |
++----------------------------------------------------------------------------------+
+|                                                                                  |
+|                          Today's Sports Challenge                                |
+|                                                                                  |
+|                     [Rookie]    [Pro]    [Legend]                                |
+|                                                                                  |
+|                     +-----+-----+-----+-----+-----+                              |
+|                     |  G  |  U  |  A  |  R  |  D  |                              |
+|                     +-----+-----+-----+-----+-----+                              |
+|                     |     |     |     |     |     |                              |
+|                     +-----+-----+-----+-----+-----+                              |
+|                     |     |     |     |     |     |                              |
+|                     +-----+-----+-----+-----+-----+                              |
+|                     |     |     |     |     |     |                              |
+|                     +-----+-----+-----+-----+-----+                              |
+|                     |     |     |     |     |     |                              |
+|                     +-----+-----+-----+-----+-----+                              |
+|                     |     |     |     |     |     |                              |
+|                     +-----+-----+-----+-----+-----+                              |
+|                                                                                  |
+|                     +---+---+---+---+---+---+---+---+---+---+                    |
+|                     | Q | W | E | R | T | Y | U | I | O | P |                    |
+|                     +---+---+---+---+---+---+---+---+---+---+                    |
+|                       +---+---+---+---+---+---+---+---+---+                      |
+|                       | A | S | D | F | G | H | J | K | L |                      |
+|                       +---+---+---+---+---+---+---+---+---+                      |
+|                     +-----+---+---+---+---+---+---+---+-----+                    |
+|                     |ENTER| Z | X | C | V | B | N | M | DEL |                    |
+|                     +-----+---+---+---+---+---+---+---+-----+                    |
+|                                                                                  |
++----------------------------------------------------------------------------------+
+|                                                                                  |
+|  +------------------------------------+  +------------------------------------+  |
+|  |           YOUR STATS               |  |        TODAY'S LEADERBOARD         |  |
+|  |                                    |  |                                    |  |
+|  |  +-------------+  +-------------+  |  |  1. SportsWiz44         2 tries    |  |
+|  |  |     12      |  |     83%     |  |  |  2. BasketballFan23     3 tries    |  |
+|  |  | Games Played|  |   Win Rate  |  |  |  3. GoalKeeper          3 tries    |  |
+|  |  +-------------+  +-------------+  |  |  4. SlamDunker          4 tries    |  |
+|  |                                    |  |  5. TouchdownKing       4 tries    |  |
+|  |  +-------------+  +-------------+  |  |                                    |  |
+|  |  |      3      |  |      7      |  |  |                                    |  |
+|  |  |Current Streak|  |  Max Streak |  |  |                                    |  |
+|  |  +-------------+  +-------------+  |  |                                    |  |
+|  +------------------------------------+  +------------------------------------+  |
+|                                                                                  |
++----------------------------------------------------------------------------------+
+|                                                                                  |
+|  SPORTSWORDLE                |  QUICK LINKS            |  RESOURCES              |
+|  The ultimate word game      |  - Play Game            |  - How to Play          |
+|  for sports fans! Test       |  - Leaderboards         |  - Sports Terminology   |
+|  your knowledge of sports    |  - Sports Categories    |  - Strategy Guide       |
+|  terminology and compete     |  - Sports Dictionary    |  - FAQs                 |
+|  with friends.               |  - History of Wordle    |  - Contact Us           |
+|                              |                         |                         |
+|  [FB] [TW] [IG] [YT]         |                         |                         |
+|                                                                                  |
+|                  © 2023 SportsWordle. All rights reserved.                       |
+|                                                                                  |
++----------------------------------------------------------------------------------+

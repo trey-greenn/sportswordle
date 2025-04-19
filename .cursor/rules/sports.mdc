@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+This repository is for our website, sportswordle.com, a platform that allows individuals to play a sports based alternative wordle game. We need to optimize, imporove, and modify this project carefully so do not make large code edits. Rather we will attack the website component or page by page. Tech stack is : NextJS ^15.2.2(with the page router), TypeScript, TailwindCSS.

@@ -1,33 +1,70 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SEO from '@/components/SEO';
+import SportsBanner from '@/components/SportsBanner';
+import NewsTicker from '@/components/NewsTicker';
+import fs from 'fs';
+import path from 'path';
+import { parse } from 'csv-parse/sync';
 
-// Dummy data for players
-const dummyPlayers = [
-  { name: "LeBron James", sport: "Basketball", age: 39, country: "USA", olympics: 3, championships: 4 },
-  { name: "Lionel Messi", sport: "Soccer", age: 36, country: "Argentina", olympics: 1, championships: 1 },
-  { name: "Simone Biles", sport: "Gymnastics", age: 27, country: "USA", olympics: 7, championships: 25 },
-  { name: "Novak Djokovic", sport: "Tennis", age: 37, country: "Serbia", olympics: 1, championships: 24 },
-  { name: "Lewis Hamilton", sport: "Formula 1", age: 39, country: "UK", olympics: 0, championships: 7 },
-  { name: "Katie Ledecky", sport: "Swimming", age: 27, country: "USA", olympics: 10, championships: 21 },
-  { name: "Tom Brady", sport: "Football", age: 46, country: "USA", olympics: 0, championships: 7 },
-  { name: "Serena Williams", sport: "Tennis", age: 42, country: "USA", olympics: 4, championships: 23 },
-  { name: "Rafael Nadal", sport: "Tennis", age: 37, country: "Spain", olympics: 2, championships: 22 },
-  { name: "Sidney Crosby", sport: "Hockey", age: 36, country: "Canada", olympics: 2, championships: 3 },
-];
+// Player interface
+interface Player {
+  name: string;
+  sport: string;
+  age: number;
+  country: string;
+  olympics: number;
+  championships: number;
+}
+
 // Game state interface
 interface GameState {
-  mysteryPlayer: typeof dummyPlayers[0] | null;
-  guesses: typeof dummyPlayers[0][];
+  mysteryPlayer: Player | null;
+  guesses: Player[];
   gameOver: boolean;
   won: boolean;
   gaveUp: boolean;
   loading: boolean;
   maxGuesses: number;
 }
-export default function Home() {
+
+export async function getStaticProps() {
+  const csvFilePath = path.join(process.cwd(), 'public', 'sportswordle.csv');
+  const fileContent = fs.readFileSync(csvFilePath, 'utf8');
+  
+  // Parse the CSV file
+  const records = parse(fileContent, {
+    columns: true,
+    skip_empty_lines: true,
+    cast: (value, context) => {
+      // Convert numeric values to numbers
+      if (context.column === 'Age' || context.column === 'Olympics' || context.column === 'Championships') {
+        return parseInt(value, 10);
+      }
+      return value;
+    }
+  });
+
+  // Transform to match our Player interface
+  const players: Player[] = records.map((record: any) => ({
+    name: record.Name,
+    sport: record.Sport,
+    age: record.Age,
+    country: record.Country,
+    olympics: record.Olympics,
+    championships: record.Championships
+  }));
+
+  return {
+    props: {
+      players
+    }
+  };
+}
+
+export default function Home({ players }: { players: Player[] }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredPlayers, setFilteredPlayers] = useState<typeof dummyPlayers>([]);
+  const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
   const [showInstructions, setShowInstructions] = useState(true);
   const [gameState, setGameState] = useState<GameState>({
     mysteryPlayer: null,
@@ -42,10 +79,10 @@ export default function Home() {
   // Initialize game on component mount
   useEffect(() => {
     // Select a random player as the mystery player
-    const randomIndex = Math.floor(Math.random() * dummyPlayers.length);
+    const randomIndex = Math.floor(Math.random() * players.length);
     setGameState(prev => ({
       ...prev,
-      mysteryPlayer: dummyPlayers[randomIndex],
+      mysteryPlayer: players[randomIndex],
       loading: false
     }));
     
@@ -56,7 +93,7 @@ export default function Home() {
     } else {
       localStorage.setItem('cdlWordleHasPlayed', 'true');
     }
-  }, []);
+  }, [players]);
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +101,7 @@ export default function Home() {
     setSearchTerm(term);
     
     if (term.length > 0) {
-      const filtered = dummyPlayers.filter(player => 
+      const filtered = players.filter(player => 
         player.name.toLowerCase().includes(term.toLowerCase()) &&
         !gameState.guesses.some(guess => guess.name === player.name)
       );
@@ -75,7 +112,7 @@ export default function Home() {
   };
 
   // Handle player selection
-  const selectPlayer = (player: typeof dummyPlayers[0]) => {
+  const selectPlayer = (player: Player) => {
     setSearchTerm('');
     setFilteredPlayers([]);
     
@@ -108,9 +145,9 @@ export default function Home() {
 
   // Handle new game
   const handleNewGame = () => {
-    const randomIndex = Math.floor(Math.random() * dummyPlayers.length);
+    const randomIndex = Math.floor(Math.random() * players.length);
     setGameState({
-      mysteryPlayer: dummyPlayers[randomIndex],
+      mysteryPlayer: players[randomIndex],
       guesses: [],
       gameOver: false,
       won: false,
@@ -121,13 +158,13 @@ export default function Home() {
   };
 
   // Check if a property matches the mystery player
-const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlayers[0]) => {
-  if (!gameState.mysteryPlayer) return false;
-  return guess[property] === gameState.mysteryPlayer[property];
-};
+  const isMatch = (guess: Player, property: keyof Player) => {
+    if (!gameState.mysteryPlayer) return false;
+    return guess[property] === gameState.mysteryPlayer[property];
+  };
 
   // Get directional hint for numeric values
-  const getDirectionalHint = (guess: typeof dummyPlayers[0], property: 'age' | 'olympics' | 'championships') => {
+  const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'championships') => {
     if (!gameState.mysteryPlayer) return null;
     
     if (guess[property] === gameState.mysteryPlayer[property]) {
@@ -140,6 +177,7 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
       return <span className={`directionalHint lower`}>↓</span>;
     }
   };
+
   // Share results
   const shareResults = () => {
     if (!gameState.mysteryPlayer) return;
@@ -166,29 +204,31 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
       .catch(() => alert('Failed to copy results. Please try again.'));
   };
   
-
   if (gameState.loading) {
     return <div className="container">Loading...</div>;
   }
 
   return (
-    <div className="container">
+    <div className=" ">
       <SEO/>
-
-      <main className="main">
-        <h1 className="title">Sports Wordle</h1>
-         {/* Fixed always-visible instructions section */}
-         <div className="instructions">
-    <p>Guess the mystery sports player in {gameState.maxGuesses} tries or less!</p>
-    <p>Green cells indicate a match with the mystery player.</p>
-    <p>For numeric values, arrows indicate if the mystery player's value is higher (↑) or lower (↓).</p>
-    <button 
-      className="instructionButton "
-      onClick={() => setShowInstructions(false)}
-    >
-      Got it!
-    </button>
-  </div>
+      <div className="fixedBannerContainer">
+        <SportsBanner />
+        <NewsTicker/>
+      </div>
+      <main className="mainWithFixedBanner">
+        {/* <h1 className="title">Sports Wordle</h1> */}
+        {/* Fixed always-visible instructions section */}
+        <div className="instructions">
+          <p>Guess the mystery sports player in {gameState.maxGuesses} tries or less!</p>
+          <p>Green cells indicate a match with the mystery player.</p>
+          <p>For numeric values, arrows indicate if the mystery player's value is higher (↑) or lower (↓).</p>
+          <button 
+            className="instructionButton"
+            onClick={() => setShowInstructions(false)}
+          >
+            Got it!
+          </button>
+        </div>
         {!gameState.gameOver ? (
           <>
             <div className="gameControls">
@@ -239,48 +279,66 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
             <div className="guessCount">
               Guesses: {gameState.guesses.length}/{gameState.maxGuesses}
             </div>
+                {/* Parameter boxes to show what users are guessing */}
+                <div className="parameterBoxesContainer">
+              <div className="parameterBox sportBox">
+                <span>Sport</span>
+              </div>
+              <div className="parameterBox countryBox">
+                <span>Country</span>
+              </div>
+              <div className="parameterBox ageBox">
+                <span>Age</span>
+              </div>
+              <div className="parameterBox olympicsBox">
+                <span>Olympics</span>
+              </div>
+              <div className="parameterBox championshipsBox">
+                <span>Championships</span>
+              </div>
+              </div>
 
             <div className="guessesContainer">
-  {gameState.guesses.length > 0 && (
-    <table className="guessTable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Sport</th>
-          <th>Country</th>
-          <th>Age</th>
-          <th>Olympics</th>
-          <th>Championships</th>
-        </tr>
-      </thead>
-      <tbody>
-        {gameState.guesses.map((guess, index) => (
-          <tr key={index}>
-            <td>{guess.name}</td>
-            <td className={isMatch(guess, 'sport') ? "match" : ''}>
-              {guess.sport}
-            </td>
-            <td className={isMatch(guess, 'country') ? "match" : ''}>
-              {guess.country}
-            </td>
-            <td className={isMatch(guess, 'age') ? "match" : ''}>
-              {guess.age}
-              {!isMatch(guess, 'age') && getDirectionalHint(guess, 'age')}
-            </td>
-            <td className={isMatch(guess, 'olympics') ? "match" : ''}>
-              {guess.olympics}
-              {!isMatch(guess, 'olympics') && getDirectionalHint(guess, 'olympics')}
-            </td>
-            <td className={isMatch(guess, 'championships') ? "match" : ''}>
-              {guess.championships}
-              {!isMatch(guess, 'championships') && getDirectionalHint(guess, 'championships')}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )}
-</div>
+              {gameState.guesses.length > 0 && (
+                <table className="guessTable">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Sport</th>
+                      <th>Country</th>
+                      <th>Age</th>
+                      <th>Olympics</th>
+                      <th>Championships</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gameState.guesses.map((guess, index) => (
+                      <tr key={index}>
+                        <td>{guess.name}</td>
+                        <td className={isMatch(guess, 'sport') ? "match" : ''}>
+                          {guess.sport}
+                        </td>
+                        <td className={isMatch(guess, 'country') ? "match" : ''}>
+                          {guess.country}
+                        </td>
+                        <td className={isMatch(guess, 'age') ? "match" : ''}>
+                          {guess.age}
+                          {!isMatch(guess, 'age') && getDirectionalHint(guess, 'age')}
+                        </td>
+                        <td className={isMatch(guess, 'olympics') ? "match" : ''}>
+                          {guess.olympics}
+                          {!isMatch(guess, 'olympics') && getDirectionalHint(guess, 'olympics')}
+                        </td>
+                        <td className={isMatch(guess, 'championships') ? "match" : ''}>
+                          {guess.championships}
+                          {!isMatch(guess, 'championships') && getDirectionalHint(guess, 'championships')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
           </>
         ) : (
           <div className="gameOverContainer">
@@ -313,7 +371,7 @@ const isMatch = (guess: typeof dummyPlayers[0], property: keyof typeof dummyPlay
       </main>
 
       <footer className="footer">
-        <p>This site is not affiliated with the any sports organization.</p>
+        <p>This site is not affiliated with any sports organization.</p>
       </footer>
     </div>
   );

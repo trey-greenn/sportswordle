@@ -26,16 +26,15 @@ body {
 }
 
 .container {
+  position: relative;
+  width: 100%;
   min-height: 100vh;
-  padding: 0 1rem;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
 }
-
 .main {
   padding: 2rem 0;
   flex: 1;
@@ -164,8 +163,10 @@ body {
   font-weight: bold;
 }
 
+/* Make sure the guesses container is properly centered */
 .guessesContainer {
   width: 100%;
+  max-width: 600px; /* Match with other containers */
   overflow-x: auto;
 }
 
@@ -273,7 +274,7 @@ body {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .title {
     font-size: 2rem;
   }
@@ -297,7 +298,7 @@ body {
   .guessTable th, .guessTable td {
     padding: 0.3rem;
   }
-}
+} */
 
 /* Additional styles for better UX */
 .directionalHint {
@@ -357,3 +358,132 @@ body {
   border-radius: 5px;
   border: 1px solid #dee2e6;
 }
+
+/* Add to your CSS file */
+.ticker-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.ticker-content {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+}
+
+/* Make sure the parameter boxes and other elements adjust properly */
+.parameterBoxesContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 600px; /* Match with other containers */
+}
+
+.parameterBox {
+  flex: 1;
+  padding: 0.75rem 0.5rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.parameterBox:hover {
+  transform: translateY(-2px);
+}
+
+.parameterBox span {
+  font-size: 1rem;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Individual box colors */
+.sportBox {
+  background-color: #4CAF50; /* Green */
+}
+
+.countryBox {
+  background-color: #2196F3; /* Blue */
+}
+
+.ageBox {
+  background-color: #FFC107; /* Amber */
+}
+
+.olympicsBox {
+  background-color: #9C27B0; /* Purple */
+}
+
+.championshipsBox {
+  background-color: #F44336; /* Red */
+}
+
+/* Responsive design for smaller screens */
+/* @media (max-width: 768px) {
+  .mainWithFixedBanner {
+    margin-top: 100px; 
+  }
+  
+  .parameterBoxesContainer {
+    flex-wrap: wrap;
+  }
+  
+  .parameterBox {
+    min-width: 100px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .parameterBox span {
+    font-size: 0.9rem;
+  }
+} */
+/* Add these styles to your globals.css file */
+
+/* Update these styles in your globals.css file */
+
+.banner-container {
+  width: 100%;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100px;
+  display: block;
+}
+
+.fixedBannerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: var(--background);
+}
+
+
+.mainWithFixedBanner {
+  margin-top: 150px; /* Adjusted for 50px banner + news ticker */
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 800px; /* Add a max-width for better readability */
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Responsive design for smaller screens */
+/* @media (max-width: 768px) {
+  .mainWithFixedBanner {
+    margin-top: 80px; 
+  }
+} */
