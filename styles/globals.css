@@ -633,7 +633,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  max-width: 800px; /* Add a max-width for better readability */
+  max-width: 1000px; /* Add a max-width for better readability */
   margin-left: auto;
   margin-right: auto;
 }

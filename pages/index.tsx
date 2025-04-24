@@ -3,6 +3,7 @@ import Head from 'next/head';
 import SEO from '@/components/SEO';
 import SportsBanner from '@/components/SportsBanner';
 import NewsTicker from '@/components/NewsTicker';
+import SportFilter from '@/components/SportFilter';
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'csv-parse/sync';
@@ -163,20 +164,16 @@ export default function Home({ players }: { players: Player[] }) {
     return guess[property] === gameState.mysteryPlayer[property];
   };
 
-  // Get directional hint for numeric values
-  const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'championships') => {
-    if (!gameState.mysteryPlayer) return null;
-    
-    if (guess[property] === gameState.mysteryPlayer[property]) {
-      return null;
-    }
-    
-    if (guess[property] < gameState.mysteryPlayer[property]) {
-      return <span className={`directionalHint higher`}>↑</span>;
-    } else {
-      return <span className={`directionalHint lower`}>↓</span>;
-    }
-  };
+ // Get directional hint for numeric values
+const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'championships') => {
+  if (!gameState.mysteryPlayer) return null;
+  
+  if (guess[property] === gameState.mysteryPlayer[property]) {
+    return null;
+  }
+  
+  return guess[property] < gameState.mysteryPlayer[property] ? 'higher' : 'lower';
+};
 
   // Share results
   const shareResults = () => {
@@ -215,185 +212,203 @@ export default function Home({ players }: { players: Player[] }) {
         <SportsBanner />
         <NewsTicker/>
       </div>
-      <main className="mainWithFixedBanner ">
-        {/* <h1 className="title">Sports Wordle</h1> */}
-        {/* Fixed always-visible instructions section */}
-        <div className="instructions">
-          <p>Guess the mystery sports player in {gameState.maxGuesses} tries or less!</p>
-          <p>Green cells indicate a match with the mystery player.</p>
-          <p>For numeric values, arrows indicate if the mystery player's value is higher (↑) or lower (↓).</p>
-          <button 
-            className="instructionButton"
-            onClick={() => setShowInstructions(false)}
-          >
-            Got it!
-          </button>
-        </div>
-        {!gameState.gameOver ? (
-          <>
-            <div className="gameControls">
-              <div className="searchContainer">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  placeholder="Start typing to guess a player..."
-                  className="searchInput"
-                />
-                {filteredPlayers.length > 0 && (
-                  <div className="dropdown">
-                    {filteredPlayers.map((player) => (
-                      <div 
-                        key={player.name} 
-                        className="dropdownItem"
-                        onClick={() => selectPlayer(player)}
-                      >
-                        {player.name}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="buttonContainer">
-                <button 
-                  className="guessButton"
-                  onClick={() => {
-                    if (filteredPlayers.length > 0) {
-                      selectPlayer(filteredPlayers[0]);
-                    }
-                  }}
-                  disabled={filteredPlayers.length === 0}
-                >
-                  Guess
-                </button>
-                <button 
-                  className="giveUpButton"
-                  onClick={handleGiveUp}
-                  disabled={gameState.guesses.length === 0}
-                >
-                  Give up
-                </button>
-              </div>
-            </div>
-
-            <div className="guessCount">
-              Guesses: {gameState.guesses.length}/{gameState.maxGuesses}
-            </div>
-            <div className="game-content">
-  {/* Parameter Boxes aligned with table columns */}
-  <div className="parameterBoxesContainer mb-2">
-    <div className="parameterBox sportBox">
-      <span>Name</span>
-    </div>
-    <div className="parameterBox sportBox">
-      <span>Sport</span>
-    </div>
-    <div className="parameterBox countryBox">
-      <span>Country</span>
-    </div>
-    <div className="parameterBox ageBox">
-      <span>Age</span>
-    </div>
-    <div className="parameterBox olympicsBox">
-      <span>Olympics</span>
-    </div>
-    <div className="parameterBox championshipsBox">
-      <span>Championships</span>
-    </div>
-  </div>
-  
-   {/* Table with colgroup to enforce column widths */}
-   <table className="guessTable mt-10">
-    <colgroup>
-      <col /> {/* Name column - 1.5fr */}
-      <col /> {/* Sport column - 1fr */}
-      <col /> {/* Country column - 1fr */}
-      <col /> {/* Age column - 0.8fr */}
-      <col /> {/* Olympics column - 0.8fr */}
-      <col /> {/* Championships column - 1fr */}
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Sport</th>
-        <th>Country</th>
-        <th>Age</th>
-        <th>Olympics</th>
-        <th>Championships</th>
-      </tr>
-    </thead>
-    <tbody>
-      {gameState.guesses.map((guess, index) => (
-        <tr key={index}>
-          <td>{guess.name}</td>
-          <td className={isMatch(guess, 'sport') ? "match" : ''}>
-            {guess.sport}
-          </td>
-          <td className={isMatch(guess, 'country') ? "match" : ''}>
-            {guess.country}
-          </td>
-          <td className={isMatch(guess, 'age') ? "match" : ''}>
-            {guess.age}
-            {!isMatch(guess, 'age') && (
-              <span className={getDirectionalHint(guess, 'age') === '↑' ? 'directional-hint-up' : 'directional-hint-down'}>
-                {getDirectionalHint(guess, 'age')}
-              </span>
-            )}
-          </td>
-          <td className={isMatch(guess, 'olympics') ? "match" : ''}>
-            {guess.olympics}
-            {!isMatch(guess, 'olympics') && (
-              <span className={getDirectionalHint(guess, 'olympics') === '↑' ? 'directional-hint-up' : 'directional-hint-down'}>
-                {getDirectionalHint(guess, 'olympics')}
-              </span>
-            )}
-          </td>
-          <td className={isMatch(guess, 'championships') ? "match" : ''}>
-            {guess.championships}
-            {!isMatch(guess, 'championships') && (
-              <span className={getDirectionalHint(guess, 'championships') === '↑' ? 'directional-hint-up' : 'directional-hint-down'}>
-                {getDirectionalHint(guess, 'championships')}
-              </span>
-            )}
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-            
-          </>
-        ) : (
-          <div className="gameOverContainer">
-            <h2>The mystery player was:</h2>
-            <h1 className="mysteryPlayerReveal">
-              {gameState.mysteryPlayer?.name}
-            </h1>
-            
-            {gameState.won ? (
-              <p>You got it in {gameState.guesses.length} tries!</p>
-            ) : (
-              <p>You {gameState.gaveUp ? 'gave up' : 'ran out of guesses'} after {gameState.guesses.length} guesses.</p>
-            )}
-            
-            <button 
-              className="shareButton"
-              onClick={shareResults}
-            >
-              Share Results
-            </button>
-            
-            <button 
-              className="newGameButton"
-              onClick={handleNewGame}
-            >
-              New Game
-            </button>
+      <main className="mainWithFixedBanner px-4 sm:px-6 md:px-8">
+        <div className="flex flex-col md:flex-row">
+          {/* Left Sidebar - Sport Filter - reduced width */}
+          <div className="md:w-1/5 lg:w-1/6 flex-shrink-0 md:sticky md:top-20 md:h-screen md:pt-6 md:pr-4">
+            <SportFilter />
           </div>
-        )}
+        
+          
+          {/* Main Content Area - increased width */}
+          <div className="flex-grow md:w-4/5 lg:w-5/6">
+            {/* Centered Game Controls Section with border and background */}
+            <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md p-6 mb-8">
+              {/* Instructions Section */}
+              <div className="instructions mb-6 text-center">
+                <p>Guess the mystery sports player in {gameState.maxGuesses} tries or less!</p>
+                <p>Green cells indicate a match with the mystery player.</p>
+                <p>For numeric values, arrows indicate if the mystery player's value is higher (↑) or lower (↓).</p>
+                <button 
+                  className="instructionButton mx-auto mt-2"
+                  onClick={() => setShowInstructions(false)}
+                >
+                  Got it!
+                </button>
+              </div>
+              
+              {!gameState.gameOver ? (
+                <>
+                  <div className="gameControls mb-5 flex flex-col items-center">
+                    <div className="searchContainer w-full max-w-xl">
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        placeholder="Start typing to guess a player..."
+                        className="searchInput w-full"
+                      />
+                      {filteredPlayers.length > 0 && (
+                        <div className="dropdown w-full">
+                          {filteredPlayers.map((player) => (
+                            <div 
+                              key={player.name} 
+                              className="dropdownItem"
+                              onClick={() => selectPlayer(player)}
+                            >
+                              {player.name}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="buttonContainer mt-4 flex justify-center space-x-4">
+                      <button 
+                        className="guessButton min-w-[100px] px-4 py-2"
+                        onClick={() => {
+                          if (filteredPlayers.length > 0) {
+                            selectPlayer(filteredPlayers[0]);
+                          }
+                        }}
+                        disabled={filteredPlayers.length === 0}
+                      >
+                        Guess
+                      </button>
+                      <button 
+                        className="giveUpButton min-w-[100px] px-4 py-2"
+                        onClick={handleGiveUp}
+                        disabled={gameState.guesses.length === 0}
+                      >
+                        Give up
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="guessCount text-center px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md font-medium">
+                    Guesses: <span className="font-bold">{gameState.guesses.length}/{gameState.maxGuesses}</span>
+                  </div>
+                </>
+              ) : (
+                <div className="gameOverContainer">
+                  <h2>The mystery player was:</h2>
+                  <h1 className="mysteryPlayerReveal">
+                    {gameState.mysteryPlayer?.name}
+                  </h1>
+                  
+                  {gameState.won ? (
+                    <p>You got it in {gameState.guesses.length} tries!</p>
+                  ) : (
+                    <p>You {gameState.gaveUp ? 'gave up' : 'ran out of guesses'} after {gameState.guesses.length} guesses.</p>
+                  )}
+                  
+                  <button 
+                    className="shareButton"
+                    onClick={shareResults}
+                  >
+                    Share Results
+                  </button>
+                  
+                  <button 
+                    className="newGameButton"
+                    onClick={handleNewGame}
+                  >
+                    New Game
+                  </button>
+                </div>
+              )}
+            </div>
+            
+            {/* Game content with wider table - full width */}
+            {!gameState.gameOver && (
+              <div className="game-content w-full">
+                {/* Parameter Boxes aligned with table columns */}
+                <div className="parameterBoxesContainer mb-2 w-full">
+                  <div className="parameterBox sportBox">
+                    <span>Name</span>
+                  </div>
+                  <div className="parameterBox sportBox">
+                    <span>Sport</span>
+                  </div>
+                  <div className="parameterBox countryBox">
+                    <span>Country</span>
+                  </div>
+                  <div className="parameterBox ageBox">
+                    <span>Age</span>
+                  </div>
+                  <div className="parameterBox olympicsBox">
+                    <span>Olympics</span>
+                  </div>
+                  <div className="parameterBox championshipsBox">
+                    <span>Championships</span>
+                  </div>
+                </div>
+                
+                {/* Table with colgroup to enforce column widths */}
+                <table className="guessTable mt-10 w-full table-fixed">
+                  <colgroup>
+                    <col className="w-1/5" /> {/* Name column - 20% */}
+                    <col className="w-[15%]" /> {/* Sport column - 15% */}
+                    <col className="w-[15%]" /> {/* Country column - 15% */}
+                    <col className="w-[15%]" /> {/* Age column - 15% */}
+                    <col className="w-[15%]" /> {/* Olympics column - 15% */}
+                    <col className="w-1/5" /> {/* Championships column - 20% */}
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-3 text-left bg-gray-100 dark:bg-gray-700">Name</th>
+                      <th className="px-4 py-3 text-left bg-gray-100 dark:bg-gray-700">Sport</th>
+                      <th className="px-4 py-3 text-left bg-gray-100 dark:bg-gray-700">Country</th>
+                      <th className="px-4 py-3 text-left bg-gray-100 dark:bg-gray-700">Age</th>
+                      <th className="px-4 py-3 text-left bg-gray-100 dark:bg-gray-700">Olympics</th>
+                      <th className="px-4 py-3 text-left bg-gray-100 dark:bg-gray-700">Championships</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gameState.guesses.map((guess, index) => (
+                      <tr key={index} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <td className="px-4 py-3 truncate">{guess.name}</td>
+                        <td className={`px-4 py-3 truncate ${isMatch(guess, 'sport') ? "match" : ''}`}>
+                          {guess.sport}
+                        </td>
+                        <td className={`px-4 py-3 truncate ${isMatch(guess, 'country') ? "match" : ''}`}>
+                          {guess.country}
+                        </td>
+                        <td className={`px-4 py-3 ${isMatch(guess, 'age') ? "match" : ''}`}>
+                            {guess.age}
+                            {!isMatch(guess, 'age') && getDirectionalHint(guess, 'age') && (
+                              <span className={`directional-hint-${getDirectionalHint(guess, 'age')} ml-2`}>
+                                {getDirectionalHint(guess, 'age') === 'higher' ? '↑' : '↓'}
+                              </span>
+                            )}
+                          </td>
+                          <td className={`px-4 py-3 ${isMatch(guess, 'olympics') ? "match" : ''}`}>
+                            {guess.olympics}
+                            {!isMatch(guess, 'olympics') && getDirectionalHint(guess, 'olympics') && (
+                              <span className={`directional-hint-${getDirectionalHint(guess, 'olympics')} ml-2`}>
+                                {getDirectionalHint(guess, 'olympics') === 'higher' ? '↑' : '↓'}
+                              </span>
+                            )}
+                          </td>
+                          <td className={`px-4 py-3 ${isMatch(guess, 'championships') ? "match" : ''}`}>
+                            {guess.championships}
+                            {!isMatch(guess, 'championships') && getDirectionalHint(guess, 'championships') && (
+                              <span className={`directional-hint-${getDirectionalHint(guess, 'championships')} ml-2`}>
+                                {getDirectionalHint(guess, 'championships') === 'higher' ? '↑' : '↓'}
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+          </div>
       </main>
-              {/* Add a visual divider between game and blog section */}
-      <div className="max-w-7xl mx-auto my-12 border-t border-gray-200 dark:border-gray-700"></div>
+      {/* Add a visual divider between game and blog section */}
+      <div className="my-36 border-t border-gray-200 dark:border-gray-700"></div>
       
       {/* Blog Section for SEO */}
       <section className="blog-section bg-gray-50 dark:bg-gray-900 py-8">
@@ -486,8 +501,43 @@ export default function Home({ players }: { players: Player[] }) {
         </div>
       </section>
 
-      <footer className="footer">
+      <footer className="footer py-8 text-center">
         <p>This site is not affiliated with any sports organization.</p>
+        <div className="footer-links mt-6">
+          <h4 className="font-medium mb-3">Explore More Wordle Games:</h4>
+          <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 list-none">
+            <li>
+              <a href="/nba-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+                NBA Wordle
+              </a>
+            </li>
+            <li>
+              <a href="/ufc-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+                UFC Wordle
+              </a>
+            </li>
+            <li>
+              <a href="/mlb-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+                MLB Wordle
+              </a>
+            </li>
+            <li>
+              <a href="/tv-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+                TV Wordle
+              </a>
+            </li>
+            <li>
+              <a href="/business-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+                Business Wordle
+              </a>
+            </li>
+            <li>
+              <a href="/history-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+                History Wordle
+              </a>
+            </li>
+          </ul>
+        </div>
       </footer>
     </div>
   );
