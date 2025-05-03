@@ -375,31 +375,31 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
                           {guess.country}
                         </td>
                         <td className={`px-4 py-3 ${isMatch(guess, 'age') ? "match" : ''}`}>
-                            {guess.age}
-                            {!isMatch(guess, 'age') && getDirectionalHint(guess, 'age') && (
-                              <span className={`directional-hint-${getDirectionalHint(guess, 'age')} ml-2`}>
-                                {getDirectionalHint(guess, 'age') === 'higher' ? '↑' : '↓'}
-                              </span>
-                            )}
-                          </td>
-                          <td className={`px-4 py-3 ${isMatch(guess, 'olympics') ? "match" : ''}`}>
-                            {guess.olympics}
-                            {!isMatch(guess, 'olympics') && getDirectionalHint(guess, 'olympics') && (
-                              <span className={`directional-hint-${getDirectionalHint(guess, 'olympics')} ml-2`}>
-                                {getDirectionalHint(guess, 'olympics') === 'higher' ? '↑' : '↓'}
-                              </span>
-                            )}
-                          </td>
-                          <td className={`px-4 py-3 ${isMatch(guess, 'championships') ? "match" : ''}`}>
-                            {guess.championships}
-                            {!isMatch(guess, 'championships') && getDirectionalHint(guess, 'championships') && (
-                              <span className={`directional-hint-${getDirectionalHint(guess, 'championships')} ml-2`}>
-                                {getDirectionalHint(guess, 'championships') === 'higher' ? '↑' : '↓'}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
+                          {guess.age}
+                          {!isMatch(guess, 'age') && getDirectionalHint(guess, 'age') && (
+                            <span className={`directional-hint-${getDirectionalHint(guess, 'age')} ml-2 ${getDirectionalHint(guess, 'age') === 'higher' ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`}>
+                              {getDirectionalHint(guess, 'age') === 'higher' ? '↑' : '↓'}
+                            </span>
+                          )}
+                        </td>
+                        <td className={`px-4 py-3 ${isMatch(guess, 'olympics') ? "match" : ''}`}>
+                          {guess.olympics}
+                          {!isMatch(guess, 'olympics') && getDirectionalHint(guess, 'olympics') && (
+                            <span className={`directional-hint-${getDirectionalHint(guess, 'olympics')} ml-2 ${getDirectionalHint(guess, 'olympics') === 'higher' ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`}>
+                              {getDirectionalHint(guess, 'olympics') === 'higher' ? '↑' : '↓'}
+                            </span>
+                          )}
+                        </td>
+                        <td className={`px-4 py-3 ${isMatch(guess, 'championships') ? "match" : ''}`}>
+                          {guess.championships}
+                          {!isMatch(guess, 'championships') && getDirectionalHint(guess, 'championships') && (
+                            <span className={`directional-hint-${getDirectionalHint(guess, 'championships')} ml-2 ${getDirectionalHint(guess, 'championships') === 'higher' ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`}>
+                              {getDirectionalHint(guess, 'championships') === 'higher' ? '↑' : '↓'}
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

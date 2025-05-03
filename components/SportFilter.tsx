@@ -1,11 +1,11 @@
 import React from 'react';
 
-const sports = ['Basketball', 'Football', 'Baseball', 'Swimming', 'Boxing', 'UFC'];
+const sports = ['Basketball', 'Football', 'Baseball', 'Swimming','Gymnastics', 'Formula 1', 'Tennis', 'Track', 'Golf'];
 
 export default function SportFilter() {
   return (
     <div className="sticky bg-gray-50 dark:bg-gray-800 shadow-md rounded-lg p-4 w-full">
-      <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Filter by Sport</h3>
+      <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Sport Categories</h3>
       <ul className="space-y-2.5">
         {sports.map((sport) => (
           <li key={sport}>
