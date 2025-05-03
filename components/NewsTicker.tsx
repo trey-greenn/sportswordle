@@ -2,15 +2,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 const sportsNews = [
-  "NFL: Chiefs prepare for AFC showdown",
-  "NBA: Lakers win thriller in overtime",
-  "MLB: Yankees acquire All-Star pitcher",
-  "NHL: Oilers extend winning streak to 7 games",
-  "Tennis: Djokovic advances to semifinals",
-  "Golf: McIlroy leads by 2 strokes at Masters",
-  "Olympics: USA dominates medal count",
-  "Soccer: Manchester United scores late winner",
-  "F1: Hamilton takes pole position in Monaco"
+  "Nuggets and Clippers head to Game 7 showdown in Denver",
+  "Rockets force Game 7 against Warriors with dominant win",
+  "Jalen Brunson's clutch 3-pointer sends Knicks to East semis",
+  "Celtics and Knicks set to renew playoff rivalry",
+  "Thunder sweep Grizzlies to advance to second round",
+  "Timberwolves upset Lakers in five games",
+  "Pacers eliminate Bucks in thrilling overtime finish",
+  "Cavaliers sweep Heat to move on to conference semifinals",
+  "Warriors face familiar Game 7 pressure against Rockets"
 ];
 
 export default function NewsTicker() {
@@ -37,8 +37,8 @@ export default function NewsTicker() {
     return () => cancelAnimationFrame(animation);
   }, []);
 
-  const newsText = sportsNews.join(' >> ');
-  const repeatedNews = `${newsText} >> ${newsText}`;
+  const newsText = sportsNews.join(' ➡️ ');
+  const repeatedNews = `${newsText} ➡️ ${newsText}`;
   
   return (
     <div className="w-full bg-gray-800 text-white py-2 overflow-hidden mb-6">
