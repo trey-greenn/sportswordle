@@ -539,6 +539,36 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
           </ul>
         </div>
       </footer>
+
+      <div>
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: `{
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "SportsWordle",
+              "url": "https://www.sportswordle.com"
+            }`
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: `{
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.sportswordle.com"
+              }]
+            }`
+          }}
+        />
+      </div>
     </div>
   );
 }
