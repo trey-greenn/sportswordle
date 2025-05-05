@@ -1,10 +1,14 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Head, NextScript, Main } from 'next/document'
 
 export default function Document() {
   return (
     <Html lang="en">
+      
       <Head>
-        <title>SportsWordle - Play the Sports-Themed Wordle Game</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+        
         {/* Google Analytics */}
         <script
           async
@@ -20,16 +24,6 @@ export default function Document() {
             `,
           }}
         />
-        {/* SEO Meta Description */}
-        <meta name="description" content="SportsWordle is a platform where you can enjoy a sports-themed wordle game, guessing mystery sports players in a fun and interactive way." />
-        <meta name="keywords" content="sports wordle, sports game, wordle game, guess sports players, sports puzzle" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="SportsWordle - Play the Sports-Themed Wordle Game" />
-        <meta property="og:description" content="Enjoy a sports-themed wordle game, guessing mystery sports players in a fun and interactive way." />
-        <meta property="og:image" content="https://www.sportswordle.com/og-image.jpg" />
-        <meta property="og:url" content="https://www.sportswordle.com/" />
-        <meta property="og:type" content="website" />
-        <meta charSet="UTF-8" />
       </Head>
       <body>
         <Main />

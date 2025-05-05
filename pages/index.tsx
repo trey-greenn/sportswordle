@@ -76,6 +76,7 @@ export default function Home({ players }: { players: Player[] }) {
     loading: true,
     maxGuesses: 8
   });
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   // Initialize game on component mount
   useEffect(() => {
@@ -214,13 +215,25 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
       </div>
       <main className="mainWithFixedBanner px-4 sm:px-6 md:px-8">
         <div className="flex flex-col md:flex-row">
-          {/* Left Sidebar - Sport Filter - reduced width */}
-          <div className="md:w-1/5 lg:w-1/6 flex-shrink-0 md:sticky md:top-20 md:h-screen md:pt-6 md:pr-4">
+          {/* Mobile sport filter toggle */}
+          <div className="md:hidden mb-4">
+            <button className="w-full py-2 bg-gray-100 dark:bg-gray-700 rounded-lg" 
+                    onClick={() => setShowMobileFilter(prev => !prev)}>
+              Filter Sports {showMobileFilter ? '↑' : '↓'}
+            </button>
+            {showMobileFilter && (
+              <div className="mt-2">
+                <SportFilter />
+              </div>
+            )}
+          </div>
+          
+          {/* Desktop sidebar */}
+          <div className="hidden md:block md:w-1/5 lg:w-1/6 flex-shrink-0 md:sticky md:top-20 md:h-screen md:pt-6 md:pr-4">
             <SportFilter />
           </div>
-        
           
-          {/* Main Content Area - increased width */}
+          {/* Main content */}
           <div className="flex-grow md:w-4/5 lg:w-5/6">
             {/* Centered Game Controls Section with border and background */}
             <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md p-6 mb-8">
@@ -405,7 +418,7 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
               </div>
             )}
           </div>
-          </div>
+        </div>
       </main>
       {/* Add a visual divider between game and blog section */}
       <div className="my-36 border-t border-gray-200 dark:border-gray-700"></div>
@@ -568,6 +581,22 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
             }`
           }}
         />
+      </div>
+
+      {/* Replace the fixed table with a responsive card-based layout on mobile */}
+      <div className="md:hidden">
+        {gameState.guesses.map((guess, index) => (
+          <div key={index} className="mb-4 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <div className="font-bold mb-2">{guess.name}</div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className={`p-2 rounded ${isMatch(guess, 'sport') ? "bg-green-100 dark:bg-green-900" : "bg-gray-100 dark:bg-gray-700"}`}>
+                <span className="text-xs font-medium">Sport</span>
+                <div>{guess.sport}</div>
+              </div>
+              {/* More properties in grid layout */}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
