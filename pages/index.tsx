@@ -207,13 +207,13 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
   }
 
   return (
-    <div className=" ">
-      <SEO/>
+<div className="w-fit">
+<SEO/>
       <div className="fixedBannerContainer ">
         <SportsBanner />
         <NewsTicker/>
       </div>
-      <main className="mainWithFixedBanner px-4 sm:px-6 md:px-8">
+      <main className="mainWithFixedBanner px-2 sm:px-4 md:px-6 lg:px-8">        
         <div className="flex flex-col md:flex-row">
           {/* Mobile sport filter toggle */}
           <div className="md:hidden mb-4">
@@ -335,6 +335,7 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
             {/* Game content with wider table - full width */}
             {!gameState.gameOver && (
               <div className="game-content w-full">
+        
                 {/* Parameter Boxes aligned with table columns */}
                 <div className="parameterBoxesContainer mb-2 w-full">
                   <div className="parameterBox sportBox">
@@ -415,7 +416,7 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
                     ))}
                   </tbody>
                 </table>
-              </div>
+                </div>
             )}
           </div>
         </div>
