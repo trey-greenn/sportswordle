@@ -626,16 +626,9 @@ body {
 
 
 .mainWithFixedBanner {
-  margin-top: 170px; /* Adjusted for 50px banner + news ticker */
-  padding: 20px;
+  margin-top: 170px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  max-width: 1000px; /* Add a max-width for better readability */
-  margin-left: auto;
-  margin-right: auto;
+
 }
 /* Responsive design for smaller screens */
 /* @media (max-width: 768px) {

@@ -207,34 +207,34 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
   }
 
   return (
-<div className="w-fit">
+<div className="w-full">
 <SEO/>
       <div className="fixedBannerContainer ">
         <SportsBanner />
         <NewsTicker/>
       </div>
-      <main className="mainWithFixedBanner px-2 sm:px-4 md:px-6 lg:px-8">        
-        <div className="flex flex-col md:flex-row">
+      <main className="mainWithFixedBanner flex flex-col items-center">        
+        <div className="w-full flex flex-col items-center">
           {/* Mobile sport filter toggle */}
-          <div className="md:hidden mb-4">
+          {/* <div className="md:hidden mb-4">
             <button className="w-full py-2 bg-gray-100 dark:bg-gray-700 rounded-lg" 
                     onClick={() => setShowMobileFilter(prev => !prev)}>
               Filter Sports {showMobileFilter ? '↑' : '↓'}
             </button>
             {showMobileFilter && (
-              <div className="mt-2">
-                <SportFilter />
-              </div>
+              // <div className="mt-2">
+              //   <SportFilter />
+              // </div>
             )}
-          </div>
+          </div> */}
           
           {/* Desktop sidebar */}
-          <div className="hidden md:block md:w-1/5 lg:w-1/6 flex-shrink-0 md:sticky md:top-20 md:h-screen md:pt-6 md:pr-4">
+          {/* <div className="hidden md:block md:w-1/5 lg:w-1/6 flex-shrink-0 md:sticky md:top-20 md:h-screen md:pt-6 md:pr-4">
             <SportFilter />
-          </div>
+          </div> */}
           
           {/* Main content */}
-          <div className="flex-grow md:w-4/5 lg:w-5/6">
+          <div className="">
             {/* Centered Game Controls Section with border and background */}
             <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md p-6 mb-8">
               {/* Instructions Section */}
