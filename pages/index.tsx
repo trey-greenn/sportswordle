@@ -211,7 +211,6 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
 <SEO/>
       <div className="fixedBannerContainer ">
         <SportsBanner />
-        <NewsTicker/>
       </div>
       <main className="mainWithFixedBanner flex flex-col items-center">        
         <div className="w-full flex flex-col items-center">
@@ -334,7 +333,7 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
             
             {/* Game content with wider table - full width */}
             {!gameState.gameOver && (
-              <div className="game-content w-full">
+              <div className="game-content w-full pb-12">
         
                 {/* Parameter Boxes aligned with table columns */}
                 <div className="parameterBoxesContainer mb-2 w-full">
@@ -422,7 +421,7 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
         </div>
       </main>
       {/* Add a visual divider between game and blog section */}
-      <div className="my-36 border-t border-gray-200 dark:border-gray-700"></div>
+      {/* <div className="my-36 border-t border-gray-200 dark:border-gray-700"></div> */}
       
       {/* Blog Section for SEO */}
       <section className="blog-section bg-gray-50 dark:bg-gray-900 py-8">
@@ -515,38 +514,34 @@ const getDirectionalHint = (guess: Player, property: 'age' | 'olympics' | 'champ
         </div>
       </section>
 
-      <footer className="footer py-8 text-center">
-        <p>This site is not affiliated with any sports organization.</p>
+      <footer className="footer py-8 text-center mb-10">
+        <p className="text-sm text-gray-600 dark:text-gray-300 pt-4">This site is not affiliated with any sports organization.</p>
         <div className="footer-links mt-6">
           <h4 className="font-medium mb-3">Explore More Wordle Games:</h4>
           <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 list-none">
+
             <li>
-              <a href="/nba-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
-                NBA Wordle
-              </a>
-            </li>
-            <li>
-              <a href="/ufc-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <a href="https://ufcwordle.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                 UFC Wordle
               </a>
             </li>
             <li>
-              <a href="/mlb-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <a href="https://mlbwordle.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                 MLB Wordle
               </a>
             </li>
             <li>
-              <a href="/tv-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <a href="https://tvwordle.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                 TV Wordle
               </a>
             </li>
             <li>
-              <a href="/business-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <a href="https://businesswordle.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                 Business Wordle
               </a>
             </li>
             <li>
-              <a href="/history-wordle" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <a href="https://historywordle.com" className="text-blue-600 dark:text-blue-400 hover:underline">
                 History Wordle
               </a>
             </li>

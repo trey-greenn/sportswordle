@@ -22,7 +22,7 @@ export default function SportsBanner() {
               <span className="inline-block ml-1 transform rotate-2 text-white">Wordle</span>
             </h1>
             <p className="text-blue-100 text-sm md:text-base mt-1 font-medium tracking-wide">
-              Test your sports knowledge with our daily word game
+              Guess Today's Mystery Sports Player
             </p>
           </div>
         </Link>
